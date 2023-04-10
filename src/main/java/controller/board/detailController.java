@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import data.Board;
+import data.BoardInitializer;
 import data.Recommend;
 import data.User;
 
@@ -25,19 +25,16 @@ public class detailController extends HttpServlet {
 		SqlSession sqlSession = factory.openSession();
 		User logonUser = (User) req.getSession().getAttribute("logonUser");
 		String boardId = req.getParameter("boardId");
-		Board board = sqlSession.selectOne("boards.findByBoardId",boardId);
+		BoardInitializer board = sqlSession.selectOne("boards.findByBoardId",boardId);
 		req.setAttribute("board", board);
 		sqlSession.update("boards.updateViews", boardId);
 		
-		if(logonUser != null) {
-			
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", logonUser.getId());
 		map.put("boardId", boardId);
 		Recommend recommend = sqlSession.selectOne("recommends.findById", map);
 		if (recommend != null) {
 			req.setAttribute("status", recommend.getStatus());			
-		}
 		}
 		sqlSession.commit();
 		sqlSession.close();

@@ -9,15 +9,14 @@
 <link rel="stylesheet" href="/resource/css/style.css?${millis }">
 </head>
 <body>
-	<div style="display: flex; justify-content: space-between; width: 100%">
+	<div class="mainbox">
 		<c:choose>
 			<c:when test="${sessionScope.logon }">
-				<div style="padding: 10px 20px; display: flex; align-items: center; gap:10px">
+				<div style="margin-right: 30px; padding-top:4px;">
 					<b>${logonUser.nick }</b>
-				</div>
-				<div>
 					<a href="/user/logout">로그아웃</a>
 				</div>
+				
 			</c:when>
 			<c:otherwise>
 				<div style="padding: 10px 20px;">
@@ -36,7 +35,7 @@
 			<a href="/index?arr=views">조회순</a> |
 			<a href="/index?arr=likes">추천순</a>
 		</div>
-		<div class="root">
+		<div>
 			<table>
 				<tr>
 					<th>제목</th>
@@ -45,6 +44,7 @@
 					<th>조회</th>
 					<th>추천</th>
 				</tr>
+				
 				<c:forEach items="${list }" var="li">
 						<tr>
 							<td><a href="/board/detail?boardId=${li.boardId }">${li.title }</a></td>
@@ -54,7 +54,27 @@
 							<td width="10%">${li.likes }</td>
 						</tr>
 				</c:forEach>
+			
 			</table>
+			<div style="padding-top: 22px;text-align: center;">
+			<c:set var="currentPage" value="${empty param.page ? 1: param.page }"/>
+			<c:if test="${existPrev }">
+					<a href="/index?page=${start -1 }">◁</a>
+			</c:if>
+			<c:forEach begin="${start }" end="${last }" var="p">
+			<c:choose>
+				<c:when test="${p eq currentPage }">
+					<b style="color:green">${p }</b>
+				</c:when>
+				<c:otherwise>
+					<a href="/index?page=${p }">${p }</a> 
+				</c:otherwise>
+			</c:choose>
+			</c:forEach>
+			<c:if test="${existNext }">
+					<a href="/index?page=${last + 1 }">▷</a>
+			</c:if>
+			</div>
 		</div>
 	</div>
 </body>

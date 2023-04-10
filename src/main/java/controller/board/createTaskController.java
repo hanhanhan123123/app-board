@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import data.Board;
+import data.BoardInitializer;
 import data.User;
 
 @WebServlet("/board/create-task")

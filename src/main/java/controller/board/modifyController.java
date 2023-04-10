@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import data.Board;
+import data.BoardInitializer;
 import data.User;
 
 @WebServlet("/board/modify")
@@ -22,7 +22,7 @@ public class modifyController extends HttpServlet{
 		SqlSession sqlSession = factory.openSession();
 		
 		String boardId = req.getParameter("boardId");
-		Board board = sqlSession.selectOne("boards.findByBoardId",boardId);
+		BoardInitializer board = sqlSession.selectOne("boards.findByBoardId",boardId);
 		req.setAttribute("board", board);
 		
 		req.getRequestDispatcher("/WEB-INF/views/board/modify.jsp").forward(req, resp);
